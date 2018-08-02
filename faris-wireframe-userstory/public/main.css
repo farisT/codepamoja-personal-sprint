@@ -34,7 +34,7 @@ p {
 .item {
     width: 100%;
 }
-#nav {
+.nav {
     z-index: 2;
     margin-top: 80px;
 }
@@ -46,12 +46,19 @@ footer button {
     border: none;
 }
 /*  */
+.header__title {
+    color:#cccccc;
+    margin-top:150px;
+}
+.header__subtitle {
+    color:#cccccc;
+}
 .sub-title {
     color:black;
     text-align: center;
     margin-bottom: 50px;
 }
-.grey-box {
+.item__grey-box {
     width: 90%;
     height: 90%;
     background:#cccccc;
@@ -131,10 +138,10 @@ li a:hover {
 .right {
     text-align: right;
 }
-#copyright {
+.copyright {
     color:#cccccc;
 }
-#button-input {
+.button__input {
     margin-top: 25px;
     width: 200px;
     height: 50px;
