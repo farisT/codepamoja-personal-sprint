@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "stylelint src/**/*.scss",
     "test": "eslint --ignore-path .gitignore .",
-    "dev": "nodemon faris-wireframe-userstory/app.js"
+    "dev": "nodemon faris-bem/app.js"
   },
   "repository": {
     "type": "git",
