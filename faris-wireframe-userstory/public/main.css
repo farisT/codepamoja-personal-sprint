@@ -118,7 +118,7 @@ li a:hover {
     color: white;
 }
 
-.color:before{
+.white-color-ending:before{
     content: '';
     position: absolute;
     width:40%;
