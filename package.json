@@ -9,7 +9,7 @@
     "start": "nodemon faris-wireframe-userstory/app.js",
     "dev":"npm-run-all -p watch-css start",
     "build-css": "cd faris-wireframe-userstory && grunt sass",
-    "watch-css": "cd faris-wireframe-userstory && grunt watch"
+    "watch-css": "cd faris-wireframe-userstory && gulp"
   },
   "repository": {
     "type": "git",
