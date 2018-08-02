@@ -25,6 +25,7 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
+    "grunt": "^1.0.3",
     "gulp": "^3.9.1",
     "gulp-eslint": "^5.0.0",
     "gulp-stylelint": "^7.0.0",
