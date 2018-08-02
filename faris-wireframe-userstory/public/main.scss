@@ -1,0 +1,153 @@
+$dark-grey: #464646;
+$light-grey:#cccccc;
+$blue:blue;
+
+
+body,html {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana;
+  }
+
+p {
+    padding-right: 70px;
+    word-break: break-word;
+}
+/* Flex box css */
+.container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    margin-left: 100px;
+    margin-right: 100px;
+    height: 400px;
+}
+.form-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 50px;
+}
+.footer-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.item {
+    width: 100%;
+}
+.nav {
+    z-index: 2;
+    margin-top: 80px;
+}
+footer button {
+    width: 100px;
+    height:30px;
+    margin-left: 20px;
+    background:$light-grey;
+    border: none;
+}
+/*  */
+.header__title {
+    color:$light-grey;
+    margin-top:150px;
+}
+.header__subtitle {
+    color:$light-grey;
+}
+.sub-title {
+    color:black;
+    text-align: center;
+    margin-bottom: 50px;
+}
+.item__grey-box {
+    width: 90%;
+    height: 90%;
+    background:$light-grey;
+}
+
+header {
+    height: 400px;
+    background: $dark-grey;
+    margin-bottom:50px; 
+    width: 100%
+}
+
+footer {
+    background: $dark-grey;
+    height: 100px;
+    font-size: 18px;
+    vertical-align: middle;
+    line-height: 100px;
+    width: 100% 
+}
+
+/* form */
+form {
+    margin:auto;
+}
+
+input {
+    display: block;
+    width: 1000px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: $light-grey;
+    border: none;
+}
+textarea {
+    width: 1000px;
+    padding: 20px;
+    background: $light-grey;
+    border: none;
+    resize: none;
+}
+
+
+
+/* Nav Bar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: $light-grey;
+    width: 150px;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 20px 16px;
+    text-align: center;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #555;
+    color: white;
+}
+
+.white-color-ending:before{
+    content: '';
+    position: absolute;
+    width:40%;
+    left:90%;
+    height:400px;
+    background: white;
+}
+/*  */
+
+.copyright {
+    color:$light-grey;
+}
+.button__input {
+    margin-top: 25px;
+    width: 200px;
+    height: 50px;
+    background: $dark-grey;
+    border: none;
+}
