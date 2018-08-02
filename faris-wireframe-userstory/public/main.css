@@ -1,35 +1,46 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: Verdana; }
+  font-family: Verdana;
+  position: absolute;
+  width: 100%; }
 
 p {
-  padding-right: 70px;
-  word-break: break-word; }
+  word-break: break-word;
+  font-size: 14px;
+  padding-right: 10px; }
 
 /* Flex box css */
 .container {
   display: flex;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  margin-left: 100px;
-  margin-right: 100px;
-  height: 400px; }
+  height: 400px;
+  margin-left: 15px;
+  margin-right: 15px; }
+  @media screen and (min-width: 992px) {
+    .container {
+      margin-left: 100px;
+      margin-right: 100px; } }
 
 .form-container {
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
+  margin-bottom: 50px;
   margin-left: 100px;
-  margin-right: 100px;
-  margin-bottom: 50px; }
+  margin-right: 100px; }
 
 .footer-container {
   display: flex;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  margin-left: 100px;
-  margin-right: 100px; }
+  margin-left: 25px;
+  margin-right: 25px; }
+  @media screen and (min-width: 992px) {
+    .footer-container {
+      margin-left: 100px;
+      margin-right: 100px; } }
 
 .item {
   width: 100%; }
@@ -39,16 +50,19 @@ p {
   margin-top: 80px; }
 
 footer button {
-  width: 100px;
-  height: 30px;
-  margin-left: 20px;
+  margin-left: 10px;
   background: #cccccc;
-  border: none; }
+  border: none;
+  padding: 12px 19px 13px;
+  vertical-align: middle; }
 
 /*  */
 .header__title {
   color: #cccccc;
-  margin-top: 150px; }
+  margin-top: 95px; }
+  @media screen and (min-width: 992px) {
+    .header__title {
+      margin-top: 150px; } }
 
 .header__subtitle {
   color: #cccccc; }
@@ -71,7 +85,7 @@ header {
 
 footer {
   background: #464646;
-  height: 100px;
+  height: 100%;
   font-size: 18px;
   vertical-align: middle;
   line-height: 100px;
@@ -83,18 +97,25 @@ form {
 
 input {
   display: block;
-  width: 1000px;
-  padding: 20px;
+  width: 100%;
+  height: 50%;
   margin-bottom: 20px;
   background: #cccccc;
   border: none; }
+  @media screen and (min-width: 992px) {
+    input {
+      width: 1000px;
+      height: 50px; } }
 
 textarea {
-  width: 1000px;
-  padding: 20px;
+  height: 50px;
   background: #cccccc;
   border: none;
   resize: none; }
+  @media screen and (min-width: 992px) {
+    textarea {
+      height: 180px;
+      width: 997px; } }
 
 /* Nav Bar */
 ul {
@@ -118,20 +139,28 @@ li a:hover {
 .white-color-ending:before {
   content: '';
   position: absolute;
-  width: 40%;
+  width: 10%;
   left: 90%;
   height: 400px;
   background: white; }
 
 /*  */
 .copyright {
-  color: #cccccc; }
+  color: #cccccc;
+  font-size: 16px; }
+  @media screen and (min-width: 992px) {
+    .copyright {
+      flex-grow: 2; } }
 
 .button__input {
   margin-top: 25px;
-  width: 200px;
-  height: 50px;
+  width: 50%;
+  height: 29px;
   background: #464646;
   border: none; }
+  @media screen and (min-width: 992px) {
+    .button__input {
+      width: 22%;
+      height: 60px; } }
 
 /*# sourceMappingURL=main.css.map */
