@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    height: 400px;
+    margin-left: 15px;
+    margin-right: 15px;
+    @media screen and (min-width: $break-sm) {
+        margin-left: 100px;
+        margin-right: 100px;
+      }
+}
+.form-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-bottom: 50px;
+    margin-left: 100px; 
+    margin-right: 100px;
+}
+.footer-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    margin-left: 25px;
+    margin-right: 25px;
+    @media screen and (min-width: $break-sm) {
+        margin-left: 100px;
+        margin-right: 100px;
+      }
+}
+.item {
+    width: 100%;
+}

@@ -1,0 +1,27 @@
+header {
+    height: 400px;
+    background: $dark-grey;
+    margin-bottom:50px; 
+    width: 100%
+}
+
+.header__title {
+    color:$light-grey;
+    margin-top: 95px;
+    @media screen and (min-width: $break-sm) {
+        margin-top:150px;
+      }
+    
+}
+.header__subtitle {
+    color:$light-grey;
+}
+
+.white-color-ending:before{
+    content: '';
+    position: absolute;
+    width:10%;
+    left:90%;
+    height:400px;
+    background: white;
+}
