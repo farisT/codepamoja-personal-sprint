@@ -1,0 +1,32 @@
+
+@import 'variables.scss';
+@import 'layout.scss';
+@import 'navbar.scss';
+@import 'header.scss';
+@import 'footer.scss';
+@import 'form.scss';
+
+body,html {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana;
+    position: absolute;
+    width: 100%;
+  }
+
+p {
+    word-break: break-word;
+    font-size: 14px;
+    padding-right: 10px;
+}
+
+.sub-title {
+    color:black;
+    text-align: center;
+    margin-bottom: 50px;
+}
+.item__grey-box {
+    width: 90%;
+    height: 90%;
+    background:$light-grey;
+}
