@@ -17,5 +17,9 @@
     "gulp-livereload": "^3.8.1",
     "gulp-sass": "^4.0.1",
     "node-sass": "^4.9.2"
+  },
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3"
   }
 }

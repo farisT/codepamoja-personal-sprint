@@ -7,7 +7,7 @@
     "pretest": "stylelint src/**/*.scss",
     "test": "eslint --ignore-path .gitignore .",
     "start": "nodemon faris-wireframe-userstory/app.js",
-    "dev":"npm-run-all -p watch-css start",
+    "dev": "npm-run-all -p watch-css start",
     "build-css": "cd faris-wireframe-userstory && grunt sass",
     "watch-css": "cd faris-wireframe-userstory && gulp"
   },
@@ -40,8 +40,5 @@
     "stylelint-config-recommended-scss": "^3.2.0",
     "stylelint-scss": "^3.2.0"
   },
-  "dependencies": {
-    "ejs": "^2.6.1",
-    "express": "^4.16.3"
-  }
+  "dependencies": {}
 }

@@ -1,1 +1,1 @@
-module.exports = ['eslint', 'stylelint']
+module.exports = ['eslint', 'stylelint'];

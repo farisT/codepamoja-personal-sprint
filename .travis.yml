@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "7"
+
+before_install:
+  - npm install -g gulp-cli
+
+before_script:
+  - npm install
+script: gulp
+
+cache:
+  directories:
+    - "node_modules"
+
+after_success:
+  - sh ./shell/PR-comment.sh
