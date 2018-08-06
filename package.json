@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "stylelint src/**/*.scss",
-    "test": "eslint --ignore-path .gitignore .",
-    "dev": "nodemon faris-wireframe-userstory/app.js"
+    "test": "eslint --ignore-path .gitignore ."
   },
   "repository": {
     "type": "git",

@@ -3,10 +3,11 @@ body,html {
     padding: 0;
     font-family: Verdana;
   }
+
 p {
-    padding-right: 70px;
     word-break: break-word;
 }
+
 /* Flex box css */
 .container {
     display: flex;
@@ -34,11 +35,11 @@ p {
 .item {
     width: 100%;
 }
-#nav {
+.nav-container {
     z-index: 2;
     margin-top: 80px;
 }
-footer button {
+.footer button {
     width: 100px;
     height:30px;
     margin-left: 20px;
@@ -57,14 +58,14 @@ footer button {
     background:#cccccc;
 }
 
-header {
+.header {
     height: 400px;
     background: #464646;
     margin-bottom:50px; 
     width: 100%
 }
 
-footer {
+.footer {
     background: #464646;
     height: 100px;
     font-size: 18px;
@@ -74,11 +75,11 @@ footer {
 }
 
 /* form */
-form {
+.form {
     margin:auto;
 }
 
-input {
+.form input {
     display: block;
     width: 1000px;
     padding: 20px;
@@ -86,7 +87,7 @@ input {
     background: #cccccc;
     border: none;
 }
-textarea {
+.form textarea {
     width: 1000px;
     padding: 20px;
     background: #cccccc;
@@ -97,7 +98,7 @@ textarea {
 
 
 /* Nav Bar */
-ul {
+.nav {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -105,7 +106,7 @@ ul {
     width: 150px;
 }
 
-li a {
+.nav-link{
     display: block;
     color: #000;
     padding: 20px 16px;
@@ -113,7 +114,7 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
+.nav-list .nav-link:hover {
     background-color: #555;
     color: white;
 }
@@ -131,10 +132,11 @@ li a:hover {
 .right {
     text-align: right;
 }
-#copyright {
+.copyright {
     color:#cccccc;
+    flex-grow: 2;
 }
-#button-input {
+.button-input {
     margin-top: 25px;
     width: 200px;
     height: 50px;
