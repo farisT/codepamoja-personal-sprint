@@ -4,7 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon faris-wireframe-userstory/app.js",
+    "dev": "npm-run-all -p watch-css start",
+    "build-css": "grunt sass",
+    "watch-css": "gulp"
   },
   "author": "",
   "license": "ISC",
