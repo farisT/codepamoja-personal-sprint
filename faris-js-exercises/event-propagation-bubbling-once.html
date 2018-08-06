@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after { box-sizing: inherit; }
+  div {
+    width:100%;
+    padding:100px;
+  }
+  .one {
+    background: thistle;
+  }
+  .two {
+    background:mistyrose;
+  }
+  .three {
+    background:coral;
+  }
+</style>
+
+<button></button>
+<script>
+    const divs = document.querySelectorAll('div');
+
+    function logText(e){
+        console.log(this.classList.value);
+        // e.stopPropagation(); // stop bubbling
+    }
+    divs.forEach(div => div.addEventListener('click',logText, {
+        capture: false,
+        once: true // unbinds the eventlistener once action (in this case click) happens
+    }));
+    //Bubbling - wrippling upwards. This example shows that anything nested will wriple upwards (you click on an element that is wrapped it will log the wrapped elements as well if you have an eventlistener)
+</script>
+</body>
+</html>
