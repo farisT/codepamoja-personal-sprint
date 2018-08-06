@@ -5,11 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "stylelint src/**/*.scss",
-    "test": "eslint --ignore-path .gitignore .",
-    "start": "nodemon faris-wireframe-userstory/app.js",
-    "dev": "npm-run-all -p watch-css start",
-    "build-css": "cd faris-wireframe-userstory && grunt sass",
-    "watch-css": "cd faris-wireframe-userstory && gulp"
+    "test": "eslint --ignore-path .gitignore ."
   },
   "repository": {
     "type": "git",
