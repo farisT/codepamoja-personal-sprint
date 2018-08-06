@@ -87,12 +87,13 @@
     // 7. sort Exercise
     // Sort the people alphabetically by last name
     const sortPeople = people.sort(function(last, next){
+        //this is to destruct the split and put them in the same array rather than splitting them in different arrays.
         const [xlastName,xfirstName] = last.split(', ');
         const [zlastName,zfirstName] = next.split(', ');
-        // console.log('last-name:', lastName,'|', 'first-name:', firstName);
-        return zlastName > xlastName ? -1 : 1;
+
+        return xlastName > zlastName ? true : false; //check
     })
-    // console.log(sortPeople);
+    console.log(sortPeople);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these

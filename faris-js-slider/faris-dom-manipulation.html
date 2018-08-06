@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="slider">
+            <div class="slide pic1"></div>
+            <div class="slide pic2"></div>
+            <div class="slide pic3"></div>
+        </div>
+    </div>
+    <img src="img/chevron-left.png" class="arrow-left"></img>
+    <img src="img/chevron-right.png" class="arrow-right"></img>
+<script>
+    const container = document.querySelector('.container');
+    const slider = document.querySelector('.slider');
+    const slides = document.querySelectorAll('.slide');
+    //position of the slider (when at first image it will be 0)
+    let position = 0;
+
+    var slidesNumber = slides.length;
+
+    const leftArrow = document.querySelector('.arrow-left');
+    const rightArrow = document.querySelector('.arrow-right');
+
+
+    // function that moves the slides,
+    const moveSlide = function (value) {    
+        position += value*100; // value is * by 100 in order to use position for the slider styling (as the % so left:-100% would be the first picture)
+        slider.style.left = position + '%';
+        console.log('position', position) 
+    };
+    
+    leftArrow.addEventListener("click",function() { 
+
+        //this is a check to see if the slider is at the beginning, if it isnt go backwards
+        if(position !== 0) {
+                 moveSlide(1);
+            } else {
+                position = (slidesNumber-1)*-100;
+                slider.style.left = position + '%';  
+            }
+
+        console.log('previous image');
+    });
+
+    rightArrow.addEventListener("click", function() { 
+
+        // else check is to see if the slider reaches 3 then it will return the postion to the start - to stop it from going further than the slide length
+
+        if(position > (slidesNumber-1)*-100){
+            moveSlide(-1);
+        } else {
+                position = 0;
+                slider.style.left = position + '%'; 
+        }
+        
+        console.log('next image', position, slidesNumber);
+    });
+
+</script>
+</body>
+</html>
