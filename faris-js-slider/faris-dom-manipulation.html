@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Slider challenge</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
@@ -17,6 +17,8 @@
     </div>
     <img src="img/chevron-left.png" class="arrow-left"></img>
     <img src="img/chevron-right.png" class="arrow-right"></img>
+    <button class="play-button">PLAY</button>
+    <button class="pause-button">PAUSE</button>
 <script>
     const container = document.querySelector('.container');
     const slider = document.querySelector('.slider');
@@ -28,15 +30,34 @@
 
     const leftArrow = document.querySelector('.arrow-left');
     const rightArrow = document.querySelector('.arrow-right');
-
+    const play = document.querySelector('.play-button');
+    const pause = document.querySelector('.pause-button');
 
     // function that moves the slides,
     const moveSlide = function (value) {    
         position += value*100; // value is * by 100 in order to use position for the slider styling (as the % so left:-100% would be the first picture)
         slider.style.left = position + '%';
-        console.log('position', position) 
     };
-    
+ 
+    var intervalHandle = null; // this variable controls the starting and stopping of the sliders.
+
+    // clicking play will start the setInterval
+    play.onclick = function(){
+      intervalHandle = setInterval(function() {
+            if(position > (slidesNumber-1)*-100){
+            moveSlide(-1);
+        } else {
+                position = 0;
+                slider.style.left = position + '%'; 
+        }
+            }, 2000);
+    }
+
+    //clicking pause will clear the setInterval
+    pause.onclick = function() {
+        clearInterval(intervalHandle);
+    }; 
+
     leftArrow.addEventListener("click",function() { 
 
         //this is a check to see if the slider is at the beginning, if it isnt go backwards
@@ -46,7 +67,6 @@
                 position = (slidesNumber-1)*-100;
                 slider.style.left = position + '%';  
             }
-
         console.log('previous image');
     });
 
@@ -60,7 +80,6 @@
                 position = 0;
                 slider.style.left = position + '%'; 
         }
-        
         console.log('next image', position, slidesNumber);
     });
 
