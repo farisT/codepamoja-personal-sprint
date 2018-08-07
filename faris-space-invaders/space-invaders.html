@@ -9,70 +9,155 @@
 <script>
     const canvas = document.querySelector('#game-canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
     let isMoving = false;
+    let positionShipX = 790;
+    let positionShipY = 800;
+    let positionGun = 830;
     var deltaX = 0;
     var deltaY = 0;
 
-    function drawTriangle() {
+    function drawShip() {
         
-        ctx.clearRect(0,0, canvas.width, canvas.height);
+        ctx.clearRect(0,80, canvas.width,canvas.height);
 
         //the moving fighter
         ctx.beginPath();
-        ctx.moveTo(200 + deltaX, 100 + deltaY);
-        ctx.lineTo(170 + deltaX, 150 + deltaY);
-        ctx.lineTo(230 + deltaX ,150 + deltaY);
+
+        ctx.rect(positionShipX + deltaX,positionShipY,100,30);
+        ctx.rect(positionGun + deltaX,790,20,20);
+
+        //triangle
+
+        // ctx.moveTo(200 + deltaX, 100 + deltaY);
+        // ctx.lineTo(170 + deltaX, 150 + deltaY);
+        // ctx.lineTo(230 + deltaX ,150 + deltaY);
+
         ctx.closePath();
     
         ctx.lineWidth = 5;
-        ctx.strokeStyle = "rgba(102,102,102,1)";
+        ctx.strokeStyle = "red";
         ctx.stroke();
 
         ctx.fillStyle = "rgba(255,204,0,1)";
         ctx.fill();
     
     }
-    drawTriangle();
 
+    drawShip();
+
+    function drawBadGuys() {
+        
+        var id = 0;
+        var enemies = [];
+
+        while(id < 20){
+            enemies.push({
+                x:100 * id , y:20 
+            })
+            id++
+        }
+
+        ctx.beginPath();
+        for (i = 0; i < enemies.length; i++) { 
+            ctx.rect(enemies[i].x ,20 + 10,30,20);
+        }
+        
+        ctx.closePath();
+    
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "green";
+        ctx.stroke();
+
+        ctx.fillStyle = "green";
+        ctx.fill();
+    
+    }
+    drawBadGuys();
+
+//     function shootBullet(x,y,w,h){
+// 	this.x = x;
+// 	this.y = y;
+// 	this.w = w;
+// 	this.h = h;
+// 	this.show = function(){
+// 		ctx.fillStyle = "blue";
+// 		ctx.fillRect(this.x,this.y,this.w,this.h);
+// 	}
+
+
+// }
+    
     //movement
 
-
-
     function move(e) {
+        var movementPositionX = positionShipX + deltaX;
+        var movementPositionY = positionShipY + deltaY;
+        console.log(deltaX);
+
+        // if(movementPosition < 30 || movementPosition > 1570){
+        //     return;
+        // }
         if(e.keyCode === 37){
+            if(movementPositionX < 30){
+                deltaX = -760;
+            };
             deltaX -= 20;
             console.log('moving left');
         }
-        if(e.code === 'ArrowRight'){
+        if(e.keyCode === 39){
+            if(movementPositionX > 1570){
+                deltaX = 760;
+            };
             deltaX +=20;
             console.log('moving right')
         }
-        if(e.keyCode === 40){
-            deltaY +=20;
-            console.log('moving up')
-        }
-        if(e.keyCode === 38){
-            deltaY -=20;
-            console.log('moving down')
-        }
+
+	    if(event.keyCode == 32){
+		var bulletOne = new bullet(movementPositionX, playerOne.y, 5, 5);
+	    }
+
+
+        //moving up and down
+
+        // if(e.keyCode === 40){
+        //     deltaY +=20;
+        //     console.log('moving down')
+        // }
+        // if(e.keyCode === 38){
+        //     deltaY -=20;
+        //     console.log('moving up')
+        // }
+            if(e.code === "KeyR"){
+                location.reload();
+            };
         e.preventDefault();
-        drawTriangle();
+        drawShip();
         console.log(e);
     };
-    //move left #37
-    //move right #39
 
     window.addEventListener("keydown", move, false);
     // window.addEventListener("keyup",move, false);
+
+
 </script>
 
 <style>
   html, body {
     margin:0;
   }
+  canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 1500px;
+  background: #111a22;
+}
+
 </style>
 
 </body>
