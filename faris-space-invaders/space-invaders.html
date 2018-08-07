@@ -22,7 +22,7 @@
 
     function drawShip() {
         
-        ctx.clearRect(0,80, canvas.width,canvas.height);
+        ctx.clearRect(0,770, canvas.width,canvas.height);
 
         //the moving fighter
         ctx.beginPath();
@@ -77,13 +77,22 @@
         ctx.fill();
     
     }
-    drawBadGuys();
+    
 
     function shootBullet(x){
         ctx.fillStyle = "blue";
-		ctx.fillRect(x,50,10,10);
+        let bulletY = 750;
+        ctx.fillRect(x,bulletY,5,20);
         ctx.fill();
+        setInterval(function(){
+            ctx.clearRect(x,bulletY,5,20);
+            bulletY -= 50;
+            ctx.fillRect(x,bulletY,5,20);
+            ctx.fill();
+        },1000);
+        
 }
+drawBadGuys();
     
     //movement
 
@@ -91,11 +100,8 @@
         var movementPositionX = positionShipX + deltaX;
         var movementPositionY = positionShipY + deltaY;
         var movementGun = positionGun + deltaX;
-        console.log(deltaX);
+        // console.log(deltaX);
 
-        // if(movementPosition < 30 || movementPosition > 1570){
-        //     return;
-        // }
         if(e.keyCode === 37){
             if(movementPositionX < 30){
                 deltaX = -760;
@@ -112,7 +118,10 @@
         }
 
 	    if(event.keyCode == 32){
-            shootBullet(movementGun);
+            if(deltaX !== 0){
+                shootBullet(movementGun +5);
+            }
+
             console.log('shooot!!!', movementGun);
 	    }
 
@@ -127,7 +136,9 @@
         //     deltaY -=20;
         //     console.log('moving up')
         // }
-            if(e.code === "KeyR"){
+        
+        //dev reload override
+        if(e.code === "KeyR"){
                 location.reload();
             };
         e.preventDefault();
@@ -135,8 +146,8 @@
         console.log(e);
     };
 
+
     window.addEventListener("keydown", move, false);
-    // window.addEventListener("keyup",move, false);
 
 
 </script>
@@ -146,12 +157,12 @@
     margin:0;
   }
   canvas {
-    padding-left: 0;
+    /* padding-left: 0;
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
     display: block;
-    width: 1500px;
+    width: 1500px; */
   background: #111a22;
 }
 
