@@ -20,6 +20,15 @@
     var deltaX = 0;
     var deltaY = 0;
 
+    //bullet physics
+    var bulletId = -1;
+    var bullets = [];
+    let bulletY = 750;
+
+    // enemies
+        var id = 0;
+        var enemies = [];
+
     function drawShip() {
         
         ctx.clearRect(0,770, canvas.width,canvas.height);
@@ -52,12 +61,11 @@
 
     function drawBadGuys() {
         
-        var id = 0;
-        var enemies = [];
+
 
         while(id < 20){
             enemies.push({
-                x:100 * id , y:20 
+                x:100 * id , y:20, id
             })
             id++
         }
@@ -75,23 +83,34 @@
 
         ctx.fillStyle = "green";
         ctx.fill();
+        
     
     }
     
 
-    function shootBullet(x){
+    function shootBullet(x,y){
         ctx.fillStyle = "blue";
-        let bulletY = 750;
-        ctx.fillRect(x,bulletY,5,20);
+        ctx.fillRect(x,y,5,20);
         ctx.fill();
+        bulletId += 1;
+        bullets.push({
+            x,
+            y,
+            w:5,
+            h:20,
+            id:bulletId
+        });
         setInterval(function(){
-            ctx.clearRect(x,bulletY,5,20);
-            bulletY -= 50;
-            ctx.fillRect(x,bulletY,5,20);
+            ctx.clearRect(x,y,5,20);
+            y -= 50;
+            ctx.fillRect(x,y,5,20);
             ctx.fill();
+            bullets[bulletId].y = y;
+            console.log(bullets);
         },1000);
         
 }
+
 drawBadGuys();
     
     //movement
@@ -119,10 +138,10 @@ drawBadGuys();
 
 	    if(event.keyCode == 32){
             if(deltaX !== 0){
-                shootBullet(movementGun +5);
+                shootBullet(movementGun +5, bulletY);
             }
 
-            console.log('shooot!!!', movementGun);
+            console.log('shooot!!!', movementGun, bulletY);
 	    }
 
 
@@ -143,8 +162,11 @@ drawBadGuys();
             };
         e.preventDefault();
         drawShip();
-        console.log(e);
     };
+
+    // if(bulletY <= enemies.y &&  movementGun === enemies.x){
+    //     var
+    // }
 
 
     window.addEventListener("keydown", move, false);
