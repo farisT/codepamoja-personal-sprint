@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Space Invaders</title>
+</head>
+<body>
+<canvas id="game-canvas" width="800" height="800"></canvas>
+<script>
+    const canvas = document.querySelector('#game-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let isMoving = false;
+    var deltaX = 0;
+    var deltaY = 0;
+
+    function drawTriangle() {
+        
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+
+        //the moving fighter
+        ctx.beginPath();
+        ctx.moveTo(200 + deltaX, 100 + deltaY);
+        ctx.lineTo(170 + deltaX, 150 + deltaY);
+        ctx.lineTo(230 + deltaX ,150 + deltaY);
+        ctx.closePath();
+    
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "rgba(102,102,102,1)";
+        ctx.stroke();
+
+        ctx.fillStyle = "rgba(255,204,0,1)";
+        ctx.fill();
+    
+    }
+    drawTriangle();
+
+    //movement
+
+
+
+    function move(e) {
+        if(e.keyCode === 37){
+            deltaX -= 20;
+            console.log('moving left');
+        }
+        if(e.code === 'ArrowRight'){
+            deltaX +=20;
+            console.log('moving right')
+        }
+        if(e.keyCode === 40){
+            deltaY +=20;
+            console.log('moving up')
+        }
+        if(e.keyCode === 38){
+            deltaY -=20;
+            console.log('moving down')
+        }
+        e.preventDefault();
+        drawTriangle();
+        console.log(e);
+    };
+    //move left #37
+    //move right #39
+
+    window.addEventListener("keydown", move, false);
+    // window.addEventListener("keyup",move, false);
+</script>
+
+<style>
+  html, body {
+    margin:0;
+  }
+</style>
+
+</body>
+</html>
