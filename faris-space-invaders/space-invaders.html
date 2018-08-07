@@ -6,6 +6,7 @@
 </head>
 <body>
 <canvas id="game-canvas" width="800" height="800"></canvas>
+<!-- <h1>R to refresh</h1> -->
 <script>
     const canvas = document.querySelector('#game-canvas');
     const ctx = canvas.getContext('2d');
@@ -25,8 +26,9 @@
 
         //the moving fighter
         ctx.beginPath();
-
+        //ship
         ctx.rect(positionShipX + deltaX,positionShipY,100,30);
+        //gun
         ctx.rect(positionGun + deltaX,790,20,20);
 
         //triangle
@@ -77,24 +79,18 @@
     }
     drawBadGuys();
 
-//     function shootBullet(x,y,w,h){
-// 	this.x = x;
-// 	this.y = y;
-// 	this.w = w;
-// 	this.h = h;
-// 	this.show = function(){
-// 		ctx.fillStyle = "blue";
-// 		ctx.fillRect(this.x,this.y,this.w,this.h);
-// 	}
-
-
-// }
+    function shootBullet(x){
+        ctx.fillStyle = "blue";
+		ctx.fillRect(x,50,10,10);
+        ctx.fill();
+}
     
     //movement
 
     function move(e) {
         var movementPositionX = positionShipX + deltaX;
         var movementPositionY = positionShipY + deltaY;
+        var movementGun = positionGun + deltaX;
         console.log(deltaX);
 
         // if(movementPosition < 30 || movementPosition > 1570){
@@ -112,11 +108,12 @@
                 deltaX = 760;
             };
             deltaX +=20;
-            console.log('moving right')
+            console.log('moving right');
         }
 
 	    if(event.keyCode == 32){
-		var bulletOne = new bullet(movementPositionX, playerOne.y, 5, 5);
+            shootBullet(movementGun);
+            console.log('shooot!!!', movementGun);
 	    }
 
 
