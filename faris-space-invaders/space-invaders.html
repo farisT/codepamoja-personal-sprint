@@ -26,7 +26,7 @@
     let bulletY = 750;
 
     // enemies
-        var id = 0;
+        var enemyId = 0;
         var enemies = [];
 
     function drawShip() {
@@ -63,16 +63,15 @@
         
 
 
-        while(id < 20){
+        while(enemyId < 20){
             enemies.push({
-                x:100 * id , y:20, id
+                x:100 * enemyId , y:20, w:30, h:20, id:enemyId
             })
-            id++
+            enemyId++
         }
-
         ctx.beginPath();
         for (i = 0; i < enemies.length; i++) { 
-            ctx.rect(enemies[i].x ,20 + 10,30,20);
+            ctx.rect(enemies[i].x ,20 + 10,enemies[i].w,enemies[i].h);
         }
         
         ctx.closePath();
@@ -101,17 +100,22 @@
             id:bulletId
         });
         setInterval(function(){
+            for(i=0;i < enemies.length; i++){
+                if(enemies[i].x === x){
+                    ctx.clearRect(enemies[i].x,enemies[i].y,enemies[i].w ,enemies[i].h);
+                }
+            };
             ctx.clearRect(x,y,5,20);
             y -= 50;
             ctx.fillRect(x,y,5,20);
             ctx.fill();
             bullets[bulletId].y = y;
-            console.log(bullets);
         },1000);
         
 }
 
 drawBadGuys();
+console.log(enemies);
     
     //movement
 
