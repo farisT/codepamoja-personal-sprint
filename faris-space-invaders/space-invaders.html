@@ -13,7 +13,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-    let isMoving = false;
+    let bulletMovement = null;
     let positionShipX = 790;
     let positionShipY = 800;
     let positionGun = 830;
@@ -63,7 +63,7 @@
         
 
 
-        while(enemyId < 20){
+        while(enemyId < 10){
             enemies.push({
                 x:100 * enemyId , y:20, w:30, h:20, id:enemyId
             })
@@ -88,7 +88,7 @@
     
 
     function shootBullet(x,y){
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = "red";
         ctx.fillRect(x,y,5,20);
         ctx.fill();
         bulletId += 1;
@@ -99,12 +99,10 @@
             h:20,
             id:bulletId
         });
-        setInterval(function(){
-            for(i=0;i < enemies.length; i++){
-                if(enemies[i].x === x){
-                    ctx.clearRect(enemies[i].x,enemies[i].y,enemies[i].w ,enemies[i].h);
-                }
-            };
+        // if(!y){
+        //     clearInterval(bulletMovement)
+        // };
+        bulletMovement = setInterval(function(){
             ctx.clearRect(x,y,5,20);
             y -= 50;
             ctx.fillRect(x,y,5,20);
@@ -112,11 +110,33 @@
             bullets[bulletId].y = y;
         },1000);
         
+        
 }
 
 drawBadGuys();
-console.log(enemies);
-    
+
+    //detection
+    function collisionDetection() {
+        for (var enemy = 0; enemy < enemies.length; enemy = enemy +1){
+            for(var bullet = 0; bullet < bullets.length; bullet = bullet + 1){
+                if(
+                    (bullets[bullet].y <= enemies[enemy].y +30)&&
+                    (bullets[bullet].x <= enemies[enemy].x +10)
+                    
+                ){
+                    console.log('HIT!!!!');
+                    // clearInterval(bulletMovement);
+                    // bullets.splice(bullet,1);
+                    // enemies.splice(enemy,1);
+                    
+                    
+                }
+                
+
+            }
+        }
+
+}
     //movement
 
     function move(e) {
@@ -144,8 +164,6 @@ console.log(enemies);
             if(deltaX !== 0){
                 shootBullet(movementGun +5, bulletY);
             }
-
-            console.log('shooot!!!', movementGun, bulletY);
 	    }
 
 
@@ -174,6 +192,8 @@ console.log(enemies);
 
 
     window.addEventListener("keydown", move, false);
+    setInterval(collisionDetection,10);
+    // window.addEventListener("keyup", collisionDetection, false);
 
 
 </script>
