@@ -148,14 +148,18 @@
             for(var bullet = 0; bullet < bullets.length; bullet = bullet + 1){
                 if(
                     (bullets[bullet].y <= enemies[enemy].y +30)&&
-                    (bullets[bullet].x <= enemies[enemy].x +10)
+                    (bullets[bullet].y >= enemies[enemy].y)&&
+                    (bullets[bullet].x >= enemies[enemy].x)&&
+                    (bullets[bullet].x <= enemies[enemy].x +30)
                     
                 ){
                     console.log('HIT!!!!');
-                    ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
-                    clearInterval(bulletMovement);
+                    ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50);
                     bullets.splice(bullet,1);
-                    // enemies.splice(enemy,1);
+                    enemies.splice(enemy,1);
+                    // ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
+                    // ctx.clearRect(0,0, canvas.width,canvas.height);
+
                     
                     
                 }
@@ -235,15 +239,15 @@
 
 
     window.addEventListener("keydown", move, false);
-    // setInterval(collisionDetection,10);
+
     // window.addEventListener("keyup", collisionDetection, false);
 function gameLoop(){
     setTimeout(gameLoop,100)
     moveBullet();
-
     shootBullet();
     moveEnemies();
     drawBadGuys();
+    collisionDetection();
 }
 gameLoop();
 </script>
