@@ -14,16 +14,20 @@
         canvas.height = window.innerHeight;
 
     let bulletMovement = null;
-    let positionShipX = 790;
-    let positionShipY = 800;
-    let positionGun = 830;
-    var deltaX = 0;
-    var deltaY = 0;
 
     //bullet physics
     var bulletId = -1;
     var bullets = [];
-    let bulletY = 750;
+
+    var fighter = {
+        x:790,
+        y:800,
+        deltaX:0,
+        deltaY:0,
+        positionGun:830
+    }    
+
+    
 
     // enemies
         var enemyId = 0;
@@ -36,21 +40,21 @@
         //the moving fighter
         ctx.beginPath();
         //ship
-        ctx.rect(positionShipX + deltaX,positionShipY,100,30);
+        ctx.fillRect(fighter.x + fighter.deltaX,fighter.y,100,30);
         //gun
-        ctx.rect(positionGun + deltaX,790,20,20);
+        ctx.fillRect(fighter.positionGun + fighter.deltaX,790,20,20);
 
         //triangle
 
-        // ctx.moveTo(200 + deltaX, 100 + deltaY);
-        // ctx.lineTo(170 + deltaX, 150 + deltaY);
-        // ctx.lineTo(230 + deltaX ,150 + deltaY);
+        // ctx.moveTo(200 + fighter.deltaX, 100 + fighter.deltaY);
+        // ctx.lineTo(170 + fighter.deltaX, 150 + fighter.deltaY);
+        // ctx.lineTo(230 + fighter.deltaX ,150 + fighter.deltaY);
 
-        ctx.closePath();
+        // ctx.closePath();
     
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = "red";
-        ctx.stroke();
+        // ctx.lineWidth = 5;
+        // ctx.strokeStyle = "red";
+        // ctx.stroke();
 
         ctx.fillStyle = "rgba(255,204,0,1)";
         ctx.fill();
@@ -59,61 +63,84 @@
 
     drawShip();
 
-    function drawBadGuys() {
+    function initialBadGuys() {
         
 
 
-        while(enemyId < 10){
+        while(enemyId < 15){
             enemies.push({
-                x:100 * enemyId , y:20, w:30, h:20, id:enemyId
+                x:200 + 90 * enemyId , y:20, w:30, h:20, id:enemyId
             })
             enemyId++
         }
-        ctx.beginPath();
-        for (i = 0; i < enemies.length; i++) { 
-            ctx.rect(enemies[i].x ,20 + 10,enemies[i].w,enemies[i].h);
-        }
+        // ctx.beginPath();
+        // for (i = 0; i < enemies.length; i++) { 
+        //     ctx.rect(enemies[i].x ,enemies[i].y,enemies[i].w,enemies[i].h);
+        // }
+        // // ctx.closePath();
+        // ctx.lineWidth = 5;
+        // ctx.strokeStyle = "green";
+        // // ctx.stroke();
+        // ctx.fillStyle = "green";
+        // ctx.fill();
         
-        ctx.closePath();
     
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = "green";
-        ctx.stroke();
+    }
+    initialBadGuys();
 
+    function drawBadGuys() {
+        for (i = 0; i < enemies.length; i++) { 
+        ctx.fillRect(enemies[i].x ,enemies[i].y,30,20);
         ctx.fillStyle = "green";
         ctx.fill();
-        
+        }
     
     }
     
 
-    function shootBullet(x,y){
-        ctx.fillStyle = "red";
-        ctx.fillRect(x,y,5,20);
-        ctx.fill();
-        bulletId += 1;
-        bullets.push({
-            x,
-            y,
-            w:5,
-            h:20,
-            id:bulletId
-        });
+    function shootBullet(){
+        for(var bullet=0; bullet < bullets.length; bullet = bullet +1){
+            ctx.fillRect(bullets[bullet].x,bullets[bullet].y,5,20);
+            ctx.fillStyle = "red";
+            ctx.fill();
+        }
+
+        // bulletId += 1;
+        // bullets.push({
+        //     x,
+        //     y,
+        //     w:5,
+        //     h:20,
+        //     id:bulletId
+        // });
         // if(!y){
         //     clearInterval(bulletMovement)
         // };
-        bulletMovement = setInterval(function(){
-            ctx.clearRect(x,y,5,20);
-            y -= 50;
-            ctx.fillRect(x,y,5,20);
-            ctx.fill();
-            bullets[bulletId].y = y;
-        },1000);
-        
-        
+        // bulletMovement = setInterval(function(){
+        //     ctx.clearRect(x,y,5,20);
+        //     y -= 50;
+        //     ctx.fillRect(x,y,5,20);
+        //     ctx.fill();
+        //     bullets[bulletId].y = y;
+        // },1000);       
 }
 
-drawBadGuys();
+    function moveBullet() {
+        for(var bullet=0; bullet < bullets.length; bullet = bullet +1){
+            ctx.clearRect(bullets[bullet].x,bullets[bullet].y,5,20);
+            bullets[bullet].y = bullets[bullet].y - 20;
+        }
+    }
+
+    function moveEnemies(){
+        console.log(enemies);
+        for (var enemy = 0; enemy < enemies.length; enemy = enemy +1){
+            ctx.clearRect(enemies[enemy].x, enemies[enemy].y,30,20);
+            enemies[enemy].y = enemies[enemy].y + 5;
+        }
+    }
+
+
 
     //detection
     function collisionDetection() {
@@ -125,8 +152,9 @@ drawBadGuys();
                     
                 ){
                     console.log('HIT!!!!');
-                    // clearInterval(bulletMovement);
-                    // bullets.splice(bullet,1);
+                    ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
+                    clearInterval(bulletMovement);
+                    bullets.splice(bullet,1);
                     // enemies.splice(enemy,1);
                     
                     
@@ -140,41 +168,53 @@ drawBadGuys();
     //movement
 
     function move(e) {
-        var movementPositionX = positionShipX + deltaX;
-        var movementPositionY = positionShipY + deltaY;
-        var movementGun = positionGun + deltaX;
-        // console.log(deltaX);
+        var movementPositionX = fighter.x + fighter.deltaX;
+        var movementPositionY = fighter.y + fighter.deltaY;
+        var movementGun = fighter.positionGun + fighter.deltaX;
+        let bulletY = 750;
 
         if(e.keyCode === 37){
             if(movementPositionX < 30){
-                deltaX = -760;
+                fighter.deltaX = -760;
             };
-            deltaX -= 20;
+            fighter.deltaX -= 20;
             console.log('moving left');
+            drawShip();
         }
         if(e.keyCode === 39){
             if(movementPositionX > 1570){
-                deltaX = 760;
+                fighter.deltaX = 760;
             };
-            deltaX +=20;
+            fighter.deltaX +=20;
             console.log('moving right');
+            drawShip(); 
         }
 
-	    if(event.keyCode == 32){
-            if(deltaX !== 0){
-                shootBullet(movementGun +5, bulletY);
+	    if(event.keyCode === 32){
+            console.log(movementGun);
+            if(fighter.deltaX !== 0){
+            bulletId += 1;
+            bullets.push({
+            x:movementGun,
+            y:bulletY,
+            w:5,
+            h:20,
+            id:bulletId
+        });
+            shootBullet();
             }
+
 	    }
 
 
-        //moving up and down
+        //To do: moving up and down (BONUS!!)
 
         // if(e.keyCode === 40){
-        //     deltaY +=20;
+        //     fighter.deltaY +=20;
         //     console.log('moving down')
         // }
         // if(e.keyCode === 38){
-        //     deltaY -=20;
+        //     fighter.deltaY -=20;
         //     console.log('moving up')
         // }
         
@@ -186,16 +226,26 @@ drawBadGuys();
         drawShip();
     };
 
+
+
+
     // if(bulletY <= enemies.y &&  movementGun === enemies.x){
     //     var
     // }
 
 
     window.addEventListener("keydown", move, false);
-    setInterval(collisionDetection,10);
+    // setInterval(collisionDetection,10);
     // window.addEventListener("keyup", collisionDetection, false);
+function gameLoop(){
+    setTimeout(gameLoop,100)
+    moveBullet();
 
-
+    shootBullet();
+    moveEnemies();
+    drawBadGuys();
+}
+gameLoop();
 </script>
 
 <style>
