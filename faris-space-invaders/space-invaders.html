@@ -6,28 +6,33 @@
 </head>
 <body>
 <canvas id="game-canvas" width="800" height="800"></canvas>
+<div class="score"></div>
 <!-- <h1>R to refresh</h1> -->
 <script>
     const canvas = document.querySelector('#game-canvas');
+    const score = document.querySelector('.score');
     const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
     let bulletMovement = null;
-
+    var scoreNumber = 0;
     //bullet physics
     var bulletId = -1;
     var bullets = [];
 
     var fighter = {
-        x:790,
+        x:600,
         y:800,
         deltaX:0,
         deltaY:0,
-        positionGun:830
+        positionGun:640
     }    
 
-    
+    score.innerHTML =`Score: ${scoreNumber}`;
+    function scoreCount () {
+        
+    }
 
     // enemies
         var enemyId = 0;
@@ -64,27 +69,13 @@
     drawShip();
 
     function initialBadGuys() {
-        
-
 
         while(enemyId < 15){
             enemies.push({
-                x:200 + 90 * enemyId , y:20, w:30, h:20, id:enemyId
+                x:200 + 70 * enemyId , y:20, w:30, h:20, id:enemyId
             })
             enemyId++
         }
-        // ctx.beginPath();
-        // for (i = 0; i < enemies.length; i++) { 
-        //     ctx.rect(enemies[i].x ,enemies[i].y,enemies[i].w,enemies[i].h);
-        // }
-        // // ctx.closePath();
-        // ctx.lineWidth = 5;
-        // ctx.strokeStyle = "green";
-        // // ctx.stroke();
-        // ctx.fillStyle = "green";
-        // ctx.fill();
-        
-    
     }
     initialBadGuys();
 
@@ -136,7 +127,7 @@
         console.log(enemies);
         for (var enemy = 0; enemy < enemies.length; enemy = enemy +1){
             ctx.clearRect(enemies[enemy].x, enemies[enemy].y,30,20);
-            enemies[enemy].y = enemies[enemy].y + 5;
+            enemies[enemy].y = enemies[enemy].y + 10;
         }
     }
 
@@ -157,18 +148,24 @@
                     ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50);
                     bullets.splice(bullet,1);
                     enemies.splice(enemy,1);
+                    scoreNumber +=1;
+                    score.innerHTML =`Score: ${scoreNumber}`;
                     // ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
                     // ctx.clearRect(0,0, canvas.width,canvas.height);
-
-                    
-                    
                 }
-                
-
             }
         }
-
 }
+    function respawnBaddies(){
+        for(var enemy = 0; enemy < enemies.length; enemy = enemy +1){
+            if(enemies[enemy].y >= fighter.y ){
+                enemies = [];
+                initialBadGuys();
+                drawBadGuys();
+            }
+        }
+    }
+
     //movement
 
     function move(e) {
@@ -179,15 +176,15 @@
 
         if(e.keyCode === 37){
             if(movementPositionX < 30){
-                fighter.deltaX = -760;
+                fighter.deltaX = -560;
             };
             fighter.deltaX -= 20;
             console.log('moving left');
             drawShip();
         }
         if(e.keyCode === 39){
-            if(movementPositionX > 1570){
-                fighter.deltaX = 760;
+            if(movementPositionX > 1170){
+                fighter.deltaX = 560;
             };
             fighter.deltaX +=20;
             console.log('moving right');
@@ -230,19 +227,13 @@
         drawShip();
     };
 
-
-
-
-    // if(bulletY <= enemies.y &&  movementGun === enemies.x){
-    //     var
-    // }
-
-
     window.addEventListener("keydown", move, false);
 
-    // window.addEventListener("keyup", collisionDetection, false);
+    // window.addEventListener("keyup", respawnBaddies, false);
+
 function gameLoop(){
     setTimeout(gameLoop,100)
+    // respawnBaddies();
     moveBullet();
     shootBullet();
     moveEnemies();
@@ -250,20 +241,34 @@ function gameLoop(){
     collisionDetection();
 }
 gameLoop();
+// <!-- 
+// function hitReset(){
+//     clearTimeout(gameLoop);
+//     clear
+// } -->
+
 </script>
 
 <style>
   html, body {
     margin:0;
+    background: #111a22;
   }
   canvas {
     /* padding-left: 0;
-    padding-right: 0;
+    padding-right: 0; */
     margin-left: auto;
     margin-right: auto;
     display: block;
-    width: 1500px; */
-  background: #111a22;
+    width: 900px;
+    height: 700px;
+    /* height: 800px; */
+    background: #111a22;
+}
+.score {
+    margin-top:50px;
+    color: greenyellow;
+    text-align: center;
 }
 
 </style>
