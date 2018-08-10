@@ -9,15 +9,24 @@
 <canvas id="game-canvas" width="800" height="800"></canvas>
 <div class="score"></div>
 <div class="lives"></div>
+<br/>
+<div style="text-align: center; margin-top: 300px">
+    <h1 class="gameOver">GAMEOVER</h1>
+</div>
+
 <!-- <h1>R to refresh</h1> -->
 <script>
     const canvas = document.querySelector('#game-canvas');
     const score = document.querySelector('.score');
     const lives = document.querySelector('.lives');
+    const gameOverHeader = document.querySelector('.gameOver')
     const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
+    var theGame = null;
+    var reset = null;
+    var enemyBulletIntervals = null;
     let heroLives = 3;
     let bulletMovement = null;
     var scoreNumber = 0;
@@ -153,12 +162,18 @@
                 ){
                     console.log('STAR-FIGHTER HIT!!!!');
                     enemyBullets = [];
-                    ctx.clearRect(movementPositionX ,movementPositionY,100,50);
-                    ctx.clearRect(movementGun, 790,20,290); 
-                    enemyBullets.splice(bullet,1);
+                    ctx.clearRect(0,0, canvas.width,canvas.height);
+                    // ctx.clearRect(movementPositionX ,movementPositionY,100,50);
+                    // ctx.clearRect(movementGun, 790,20,290); 
                     heroLives -=1;
                     lives.innerHTML =`Lives: ${heroLives}`;
-                    ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
+                    enemies = [];
+                    clearTimeout(theGame);
+                    enemyId = 0;
+                    drawShip();
+                    initialBadGuys();
+                    gameLoop();
+                    // ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
                 }
             }
     }
@@ -212,7 +227,7 @@
         }
     }
 
-setTimeout(enemyShootBullet,100);
+    enemyBulletIntervals = setInterval(enemyShootBullet,2000);
 
 ///
 
@@ -256,16 +271,16 @@ setTimeout(enemyShootBullet,100);
             shootBullet();
 	    }
         //To do: moving up and down (BONUS!!)
-
-        // if(e.keyCode === 40){
-        //     fighter.deltaY +=20;
-        //     console.log('moving down')
-        // }
-        // if(e.keyCode === 38){
-        //     fighter.deltaY -=20;
-        //     console.log('moving up')
-        // }
-        
+// <!-- 
+//         if(e.keyCode === 40){
+//             fighter.deltaY +=20;
+//             console.log('moving down')
+//         }
+//         if(e.keyCode === 38){
+//             fighter.deltaY -=20;
+//             console.log('moving up')
+//         }
+//          -->
         //dev reload override
         if(e.code === "KeyR"){
                 location.reload();
@@ -276,17 +291,20 @@ setTimeout(enemyShootBullet,100);
 
 
 function gameOver(){
-    if(heroLives ===0) {
+    if(heroLives === 0) {
         canvas.style.display = "none";
+        lives.style.display = "none";
+        gameOverHeader.style.display = "unset";
+        clearTimeout(theGame);
     }
 };
+
     window.addEventListener("keydown", move, false);
 
     // window.addEventListener("keyup", respawnBaddies, false);
-// setInterval(enemyShootBullet,2000);
 
 function gameLoop(){
-    setTimeout(gameLoop,100)
+   theGame = setTimeout(gameLoop,100);
     respawnBaddies();
     moveBullet();
     shootBullet();
@@ -334,6 +352,12 @@ gameLoop();
     margin-top:5px;
     color: greenyellow;
     text-align: center;
+}
+.gameOver {
+    margin-top:5px;
+    color: greenyellow;
+    text-align: center;
+    display: none;
 }
 
 </style>
