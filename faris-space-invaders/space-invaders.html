@@ -15,6 +15,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
+    let heroLives = 3;
     let bulletMovement = null;
     var scoreNumber = 0;
     //bullet physics
@@ -30,13 +31,12 @@
     }    
 
     score.innerHTML =`Score: ${scoreNumber}`;
-    function scoreCount () {
-        
-    }
 
     // enemies
         var enemyId = 0;
         var enemies = [];
+        var enemyBullets = [];
+    //
 
     function drawShip() {
         
@@ -127,7 +127,7 @@
         console.log(enemies);
         for (var enemy = 0; enemy < enemies.length; enemy = enemy +1){
             ctx.clearRect(enemies[enemy].x, enemies[enemy].y,30,20);
-            enemies[enemy].y = enemies[enemy].y + 10;
+            enemies[enemy].y = enemies[enemy].y + 7;
         }
     }
 
@@ -151,7 +151,6 @@
                     scoreNumber +=1;
                     score.innerHTML =`Score: ${scoreNumber}`;
                     // ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
-                    // ctx.clearRect(0,0, canvas.width,canvas.height);
                 }
             }
         }
@@ -159,13 +158,21 @@
     function respawnBaddies(){
         for(var enemy = 0; enemy < enemies.length; enemy = enemy +1){
             if(enemies[enemy].y >= fighter.y ){
+                for(var enemy = 0; enemy < enemies.length; enemy = enemy +1){
+                    ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50);
+                }
                 enemies = [];
+                enemyId = 0;
                 initialBadGuys();
-                drawBadGuys();
+                console.log(enemies);
             }
         }
     }
 
+
+function enemyShootBullet () {
+    
+}
     //movement
 
     function move(e) {
@@ -192,8 +199,6 @@
         }
 
 	    if(event.keyCode === 32){
-            console.log(movementGun);
-            if(fighter.deltaX !== 0){
             bulletId += 1;
             bullets.push({
             x:movementGun,
@@ -203,8 +208,6 @@
             id:bulletId
         });
             shootBullet();
-            }
-
 	    }
 
 
@@ -233,7 +236,7 @@
 
 function gameLoop(){
     setTimeout(gameLoop,100)
-    // respawnBaddies();
+    respawnBaddies();
     moveBullet();
     shootBullet();
     moveEnemies();
