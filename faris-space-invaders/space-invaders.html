@@ -94,26 +94,7 @@
             ctx.fillRect(bullets[bullet].x,bullets[bullet].y,5,20);
             ctx.fillStyle = "red";
             ctx.fill();
-        }
-
-        // bulletId += 1;
-        // bullets.push({
-        //     x,
-        //     y,
-        //     w:5,
-        //     h:20,
-        //     id:bulletId
-        // });
-        // if(!y){
-        //     clearInterval(bulletMovement)
-        // };
-        // bulletMovement = setInterval(function(){
-        //     ctx.clearRect(x,y,5,20);
-        //     y -= 50;
-        //     ctx.fillRect(x,y,5,20);
-        //     ctx.fill();
-        //     bullets[bulletId].y = y;
-        // },1000);       
+        }      
 }
 
     function moveBullet() {
@@ -155,6 +136,19 @@
             }
         }
 }
+
+//enemy physics
+
+
+
+    function shootBadBullet () {
+        for(var enemyBullet=0; enemyBullet < enemyBullets.length; enemyBullet = enemyBullet +1){
+            ctx.fillRect(enemyBullets[enemyBullet].x,enemyBullets[enemyBullet].y,5,20);
+            ctx.fillStyle = "red";
+            ctx.fill();
+        }
+    }
+
     function respawnBaddies(){
         for(var enemy = 0; enemy < enemies.length; enemy = enemy +1){
             if(enemies[enemy].y >= fighter.y ){
@@ -170,9 +164,31 @@
     }
 
 
-function enemyShootBullet () {
+    function enemyShootBullet () {
     
-}
+        for(var enemy = 0; enemy < 3; enemy = enemy +1){
+            enemyBullets.push({
+            x:enemies[enemy].x,
+            y:enemies[enemy].y,
+            w:5,
+            h:20,
+        });
+        };
+        shootBadBullet();
+    }
+
+    function moveEnemyBullet () {
+        for(var enemyBullet=0; enemyBullet < enemyBullets.length; enemyBullet = enemyBullet +1){
+            ctx.clearRect(enemyBullets[enemyBullet].x,enemyBullets[enemyBullet].y,5,20);
+            enemyBullets[enemyBullet].y = enemyBullets[enemyBullet].y + 20;
+        }
+    }
+
+///
+
+
+
+
     //movement
 
     function move(e) {
@@ -209,8 +225,6 @@ function enemyShootBullet () {
         });
             shootBullet();
 	    }
-
-
         //To do: moving up and down (BONUS!!)
 
         // if(e.keyCode === 40){
@@ -233,6 +247,7 @@ function enemyShootBullet () {
     window.addEventListener("keydown", move, false);
 
     // window.addEventListener("keyup", respawnBaddies, false);
+// setInterval(enemyShootBullet,2000);
 
 function gameLoop(){
     setTimeout(gameLoop,100)
@@ -241,7 +256,10 @@ function gameLoop(){
     shootBullet();
     moveEnemies();
     drawBadGuys();
+    // enemyShootBullet();
+    // moveEnemyBullet();
     collisionDetection();
+    console.log(enemyBullets);
 }
 gameLoop();
 // <!-- 
