@@ -1,0 +1,25 @@
+body {
+  background: green;
+  font-family: Verdana, Geneva, Tahoma, sans-serif; }
+
+.container {
+  text-align: center; }
+
+.dealer-container {
+  display: none; }
+
+.button {
+  background: black;
+  color: red; }
+
+.hit-me {
+  display: none; }
+
+.stay {
+  display: none; }
+
+.title {
+  text-align: center; }
+
+.card-floor {
+  background: green; }
