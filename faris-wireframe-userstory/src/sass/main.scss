@@ -5,7 +5,7 @@
 body,html {
     margin: 0;
     padding: 0;
-    font-family: Verdana;
+    // font-family: Verdana;
     position: absolute;
     width: 100%;
   }
@@ -70,7 +70,7 @@ footer button {
     padding: 12px 19px 13px;
     vertical-align: middle;
 }
-/*  */
+
 .header__title {
     color:$light-grey;
     margin-top: 95px;
@@ -128,8 +128,6 @@ input {
       }
 }
 textarea {
-    // width: 100%;
-    // padding: 20px;
     height: 50px;
     background: $light-grey;
     border: none;
@@ -172,7 +170,6 @@ li a:hover {
     height:400px;
     background: white;
 }
-/*  */
 
 .copyright {
     color:$light-grey;
