@@ -141,8 +141,8 @@ const dealerAI = () => {
     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
       .then(response => response.json())
       .then((data) => {
-        console.log(data);
         dealerHand.push(data.cards[0]);
+        console.log(dealerHand);
       })
       .then(checkDealerHand)
       .then(checkDealerScore)
@@ -160,12 +160,12 @@ const dealerDraw = () => {
   fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
     .then(response => response.json())
     .then((data) => {
-      console.log(data);
       dealerHand = data.cards;
+      console.log(dealerHand);
     })
     .then(checkDealerHand)
     .then(checkDealerScore)
-    .then(dealerInterval = setInterval(dealerAI, 3000))
+    // .then(dealerInterval = setInterval(dealerAI, 5000))
     .catch((e) => {
       console.log(e);
     });
