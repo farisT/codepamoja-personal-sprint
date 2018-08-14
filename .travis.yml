@@ -7,8 +7,6 @@ before_install:
 
 before_script:
   - npm install
-  - cd faris-wireframe-userstory && npm install
-  - cd ..
 script: gulp
 
 cache:
