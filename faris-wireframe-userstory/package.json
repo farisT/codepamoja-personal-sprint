@@ -1,0 +1,29 @@
+{
+  "name": "faris-wireframe-userstory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon faris-wireframe-userstory/app.js",
+    "dev": "npm-run-all -p watch-css start",
+    "build-css": "grunt sass",
+    "watch-css": "gulp"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.24.6",
+    "grunt": "^1.0.3",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-sass": "^3.0.1",
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-sass": "^4.0.1",
+    "node-sass": "^4.9.2"
+  },
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3"
+  }
+}

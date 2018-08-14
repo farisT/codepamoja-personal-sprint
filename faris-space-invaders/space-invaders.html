@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+  <title>Space Invaders</title>
+</head>
+<body>
+<canvas id="game-canvas" width="800" height="800"></canvas>
+<div class="score"></div>
+<div class="lives"></div>
+<br/>
+<div style="text-align: center; margin-top: 300px">
+    <h1 class="gameOver">GAMEOVER</h1>
+</div>
+
+<!-- <h1>R to refresh</h1> -->
+<script>
+    const canvas = document.querySelector('#game-canvas');
+    const score = document.querySelector('.score');
+    const lives = document.querySelector('.lives');
+    const gameOverHeader = document.querySelector('.gameOver')
+    const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+    var theGame = null;
+    var reset = null;
+    var enemyBulletIntervals = null;
+    let heroLives = 3;
+    let bulletMovement = null;
+    var scoreNumber = 0;
+    //bullet physics
+    var bulletId = -1;
+    var bullets = [];
+
+    var fighter = {
+        x:600,
+        y:800,
+        deltaX:0,
+        deltaY:0,
+        positionGun:640
+    }    
+
+    score.innerHTML =`Score: ${scoreNumber}`;
+    lives.innerHTML = `Lives : ${heroLives}`;
+
+    // enemies
+        var enemyId = 0;
+        var enemies = [];
+        var enemyBullets = [];
+    //
+
+    function drawShip() {
+        
+        ctx.clearRect(0,770, canvas.width,canvas.height);
+
+        //the moving fighter
+        ctx.beginPath();
+        //ship
+        ctx.fillRect(fighter.x + fighter.deltaX,fighter.y,100,30);
+        //gun
+        ctx.fillRect(fighter.positionGun + fighter.deltaX,790,20,20);
+
+        //triangle
+
+        // ctx.moveTo(200 + fighter.deltaX, 100 + fighter.deltaY);
+        // ctx.lineTo(170 + fighter.deltaX, 150 + fighter.deltaY);
+        // ctx.lineTo(230 + fighter.deltaX ,150 + fighter.deltaY);
+
+        // ctx.closePath();
+    
+        // ctx.lineWidth = 5;
+        // ctx.strokeStyle = "red";
+        // ctx.stroke();
+
+        ctx.fillStyle = "rgba(255,204,0,1)";
+        ctx.fill();
+    
+    }
+
+    drawShip();
+
+    function initialBadGuys() {
+
+        while(enemyId < 15){
+            enemies.push({
+                x:200 + 70 * enemyId , y:20, w:30, h:20, id:enemyId
+            })
+            enemyId++
+        }
+    }
+    initialBadGuys();
+
+    function drawBadGuys() {
+        for (i = 0; i < enemies.length; i++) { 
+        ctx.fillRect(enemies[i].x ,enemies[i].y,30,20);
+        ctx.fillStyle = "green";
+        ctx.fill();
+        }
+    
+    }
+    
+
+    function shootBullet(){
+        for(var bullet=0; bullet < bullets.length; bullet = bullet +1){
+            ctx.fillRect(bullets[bullet].x,bullets[bullet].y,5,20);
+            ctx.fillStyle = "red";
+            ctx.fill();
+        }      
+}
+
+    function moveBullet() {
+        for(var bullet=0; bullet < bullets.length; bullet = bullet +1){
+            ctx.clearRect(bullets[bullet].x,bullets[bullet].y,5,20);
+            bullets[bullet].y = bullets[bullet].y - 20;
+        }
+    }
+
+    function moveEnemies(){
+        for (var enemy = 0; enemy < enemies.length; enemy = enemy +1){
+            ctx.clearRect(enemies[enemy].x, enemies[enemy].y,30,20);
+            enemies[enemy].y = enemies[enemy].y + 5;
+        }
+    }
+
+
+
+    //detection
+    function collisionDetection() {
+        for (var enemy = 0; enemy < enemies.length; enemy = enemy +1){
+            for(var bullet = 0; bullet < bullets.length; bullet = bullet + 1){
+                if(
+                    (bullets[bullet].y <= enemies[enemy].y +30)&&
+                    (bullets[bullet].y >= enemies[enemy].y)&&
+                    (bullets[bullet].x >= enemies[enemy].x)&&
+                    (bullets[bullet].x <= enemies[enemy].x +30)
+                    
+                ){
+                    console.log('HIT!!!!');
+                    ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50);
+                    bullets.splice(bullet,1);
+                    enemies.splice(enemy,1);
+                    scoreNumber +=1;
+                    score.innerHTML =`Score: ${scoreNumber}`;
+                    // ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
+                }
+            }
+        }
+}
+    function enemyCollisionDetection() {
+        var movementPositionX = fighter.x + fighter.deltaX;
+        var movementPositionY = fighter.y;
+        var movementGun = fighter.positionGun + fighter.deltaX;
+        console.log(movementPositionX);
+            for(var bullet = 0; bullet < enemyBullets.length; bullet = bullet + 1){
+                if(
+                    (enemyBullets[bullet].y <= movementPositionY +30)&&
+                    (enemyBullets[bullet].y >= movementPositionY)&&
+                    (enemyBullets[bullet].x >= movementPositionX)&&
+                    (enemyBullets[bullet].x <= movementPositionX +110)
+                ){
+                    console.log('STAR-FIGHTER HIT!!!!');
+                    enemyBullets = [];
+                    ctx.clearRect(0,0, canvas.width,canvas.height);
+                    // ctx.clearRect(movementPositionX ,movementPositionY,100,50);
+                    // ctx.clearRect(movementGun, 790,20,290); 
+                    heroLives -=1;
+                    lives.innerHTML =`Lives: ${heroLives}`;
+                    enemies = [];
+                    clearTimeout(theGame);
+                    enemyId = 0;
+                    drawShip();
+                    initialBadGuys();
+                    gameLoop();
+                    // ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50); // clears the block
+                }
+            }
+    }
+
+
+//enemy physics
+
+    function respawnBaddies(){
+        for(var enemy = 0; enemy < enemies.length; enemy = enemy +1){
+            if(enemies[enemy].y >= fighter.y ){
+                for(var enemy = 0; enemy < enemies.length; enemy = enemy +1){
+                    ctx.clearRect(enemies[enemy].x,enemies[enemy].y,50,50);
+                }
+                enemies = [];
+                enemyId = 0;
+                initialBadGuys();
+                enemyShootBullet()
+                console.log(enemies);
+            }
+        }
+    }
+
+ var randomShot = Math.floor((Math.random() * 16));
+
+    function enemyShootBullet () {
+    
+        for(var enemy = 0; enemy < randomShot; enemy = enemy +1){
+            enemyBullets.push({
+            x:enemies[enemy].x + 10,
+            y:enemies[enemy].y +30,
+            w:5,
+            h:20,
+        });
+        };
+        console.log(enemyBullets);
+    }
+   
+    console.log('RANDOM BULLET' ,randomShot);
+    function shootBadBullet () {
+        for(var enemyBullet=0; enemyBullet < enemyBullets.length; enemyBullet = enemyBullet +1){
+            ctx.fillRect(enemyBullets[enemyBullet].x,enemyBullets[enemyBullet].y,5,20);
+            ctx.fillStyle = "red";
+            ctx.fill();
+        }
+    }
+
+    function moveEnemyBullet () {
+        for(var enemyBullet=0; enemyBullet < enemyBullets.length; enemyBullet = enemyBullet +1){
+            ctx.clearRect(enemyBullets[enemyBullet].x,enemyBullets[enemyBullet].y,5,20);
+            enemyBullets[enemyBullet].y = enemyBullets[enemyBullet].y + 10;
+        }
+    }
+
+    enemyBulletIntervals = setInterval(enemyShootBullet,2000);
+
+///
+
+
+
+
+    //movement
+
+    function move(e) {
+        var movementPositionX = fighter.x + fighter.deltaX;
+        var movementPositionY = fighter.y + fighter.deltaY;
+        var movementGun = fighter.positionGun + fighter.deltaX;
+        let bulletY = 750;
+
+        if(e.keyCode === 37){
+            if(movementPositionX < 30){
+                fighter.deltaX = -560;
+            };
+            fighter.deltaX -= 20;
+            console.log('moving left');
+            drawShip();
+        }
+        if(e.keyCode === 39){
+            if(movementPositionX > 1170){
+                fighter.deltaX = 560;
+            };
+            fighter.deltaX +=20;
+            console.log('moving right');
+            drawShip(); 
+        }
+
+	    if(event.keyCode === 32){
+            bulletId += 1;
+            bullets.push({
+            x:movementGun,
+            y:bulletY,
+            w:5,
+            h:20,
+            id:bulletId
+        });
+            shootBullet();
+	    }
+        //To do: moving up and down (BONUS!!)
+// <!-- 
+//         if(e.keyCode === 40){
+//             fighter.deltaY +=20;
+//             console.log('moving down')
+//         }
+//         if(e.keyCode === 38){
+//             fighter.deltaY -=20;
+//             console.log('moving up')
+//         }
+//          -->
+        //dev reload override
+        if(e.code === "KeyR"){
+                location.reload();
+            };
+        e.preventDefault();
+        drawShip();
+    };
+
+
+function gameOver(){
+    if(heroLives === 0) {
+        canvas.style.display = "none";
+        lives.style.display = "none";
+        gameOverHeader.style.display = "unset";
+        clearTimeout(theGame);
+    }
+};
+
+    window.addEventListener("keydown", move, false);
+
+    // window.addEventListener("keyup", respawnBaddies, false);
+
+function gameLoop(){
+   theGame = setTimeout(gameLoop,100);
+    respawnBaddies();
+    moveBullet();
+    shootBullet();
+    moveEnemies();
+    drawBadGuys();
+    moveEnemyBullet();
+    shootBadBullet();
+
+    collisionDetection();
+    enemyCollisionDetection();
+    gameOver();
+}
+gameLoop();
+// <!-- 
+// function hitReset(){
+//     clearTimeout(gameLoop);
+//     clear
+// } -->
+
+</script>
+
+<style>
+  html, body {
+    margin:0;
+    background: #111a22;
+    font-family: 'Orbitron', sans-serif;
+  }
+  canvas {
+    /* padding-left: 0;
+    padding-right: 0; */
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 900px;
+    height: 700px;
+    /* height: 800px; */
+    background: #111a22;
+}
+.score {
+    margin-top:50px;
+    color: greenyellow;
+    text-align: center;
+}
+.lives {
+    margin-top:5px;
+    color: greenyellow;
+    text-align: center;
+}
+.gameOver {
+    margin-top:5px;
+    color: greenyellow;
+    text-align: center;
+    display: none;
+}
+
+</style>
+
+</body>
+</html>

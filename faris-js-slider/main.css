@@ -1,0 +1,52 @@
+.arrow-left {
+    float: left;
+    margin-top: 20%;
+}
+
+.arrow-right {
+    float: right;
+    margin-top: 20%;
+}
+
+.container {
+    position: absolute; 
+    z-index: -1; 
+    margin: auto; 
+    left: 0; 
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.slider {
+    position: relative;
+    transition: 2s;
+    height: 100%;
+}
+
+.slide {
+    width: 100%;
+    height: 100%;
+    margin: 0 -4px 0 0;
+    display: inline-block;
+}
+.pic1 {
+    background-position: center;
+    background-size: cover;
+    background-image: url("img/pic1.jpeg");
+}
+
+.pic2 {
+    background-position: center;
+    background-size: cover;
+    background-image: url("img/pic2.jpeg");
+}
+
+.pic3 {
+    background-position: center;
+    background-size: cover;
+    background-image: url("img/pic3.jpeg");
+}
