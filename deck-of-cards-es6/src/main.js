@@ -6,12 +6,17 @@ let dealerHand = [];
 let interval = null;
 let dealerInterval = null;
 
+const dealEmAgain = document.querySelector('.deal-again');
 
 const cardFloor = document.querySelector('.card-floor');
 const dealerFloor = document.querySelector('.dealer-floor');
 const hitMeButton = document.querySelector('.hit-me');
 const stayButton = document.querySelector('.stay');
 const score = document.querySelector('.score');
+
+const win = document.querySelector('.win-title');
+const lose = document.querySelector('.lost-title');
+const draw = document.querySelector('.draw-title');
 
 const dealerScore = document.querySelector('.dealer-score');
 
@@ -67,12 +72,13 @@ const checkDealerScore = () => {
     if (dealerHand[count].value === 'KING' || dealerHand[count].value === 'QUEEN' || dealerHand[count].value === 'JACK') {
       dealerHandScore += 10;
     }
-    if (dealerHand[count].value === 'ACE' && dealerHandScore <= 11) {
-      dealerHandScore += 11;
-    }
     if (dealerHand[count].value === 'ACE' && dealerHandScore > 11) {
       dealerHandScore += 1;
     }
+    if (dealerHand[count].value === 'ACE' && dealerHandScore < 11) {
+      dealerHandScore += 11;
+    }
+
     if (dealerHand[count].value !== 'KING' && dealerHand[count].value !== 'QUEEN' && dealerHand[count].value !== 'JACK' && dealerHand[count].value !== 'ACE') {
       dealerHandScore += parseFloat(dealerHand[count].value, 10);
     }
@@ -89,9 +95,9 @@ const checkScore = () => {
     if (hand[count].value === 'ACE' && handScore <= 11) {
       handScore += 11;
     }
-    if (hand[count].value === 'ACE' && handScore > 11) {
-      handScore += 1;
-    }
+    // if (hand[count].value === 'ACE' && handScore > 11) {
+    //   handScore += 1;
+    // }
     if (hand[count].value !== 'KING' && hand[count].value !== 'QUEEN' && hand[count].value !== 'JACK' && hand[count].value !== 'ACE') {
       console.log(hand[count].value);
       handScore += parseFloat(hand[count].value, 10);
@@ -135,7 +141,17 @@ const drawIntialCards = () => {
     });
 };
 
+const checkDealerDone = () => {
+  if (dealerHandScore < handScore && handScore <= 21) {
+    win.style.display = 'unset';
+  }
+};
 
+const checkDealerWin = () => {
+  if (dealerHandScore > handScore && dealerHandScore <= 21) {
+    lose.style.display = 'unset';
+  }
+};
 const dealerAI = () => {
   if (dealerHandScore <= 16) {
     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
@@ -146,18 +162,22 @@ const dealerAI = () => {
       })
       .then(checkDealerHand)
       .then(checkDealerScore)
+      .then(checkDealerWin)
       .catch((e) => {
         console.log(e);
       });
   } else {
     console.log('dealer done');
     clearInterval(dealerInterval);
+    checkDealerDone();
   }
 };
 
 
 const dealerStartPlaying = () => {
-  dealerInterval = setInterval(dealerAI, 3000);
+  stayButton.style.display = 'none';
+  hitMeButton.style.display = 'none';
+  dealerInterval = setInterval(dealerAI, 2000);
 };
 
 const drawCard = () => {
@@ -177,23 +197,36 @@ const drawCard = () => {
 
 fetchDeck();
 
+const refresh = () => {
+  location.reload();
+};
+
 hitMeButton.addEventListener('click', drawCard);
 stayButton.addEventListener('click', dealerStartPlaying);
+dealEmAgain.addEventListener('click', refresh);
 
 
 const dead = () => {
   if (handScore > 21) {
     console.log('YOUR OUT');
+    lose.style.display = 'unset';
     clearInterval(interval);
   }
+
   if (dealerHandScore > 21) {
     console.log('DEALER OUT');
     console.log(dealerHand);
+    win.style.display = 'unset';
     clearInterval(dealerInterval);
+    clearInterval(interval);
+  }
+  if (dealerHandScore === handScore && dealerHandScore > 16 && dealerHandScore <= 21) {
+    console.log('its a tie!!!');
+    draw.style.display = 'unset';
     clearInterval(interval);
   }
 };
 
 interval = setInterval(dead, 500);
 // setTimeout(log, 1000);
-setTimeout(drawIntialCards, 1000);
+setTimeout(drawIntialCards, 2000);

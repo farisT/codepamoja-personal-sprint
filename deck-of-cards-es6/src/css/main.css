@@ -2,24 +2,34 @@ body {
   background: green;
   font-family: Verdana, Geneva, Tahoma, sans-serif; }
 
+.card-floor {
+  background: green; }
+
 .container {
   text-align: center; }
 
 .dealer-floor {
   display: none; }
 
+.control-panel {
+  margin-top: 20px; }
+
 .button {
   background: black;
-  color: red; }
-
-.hit-me {
-  display: none; }
-
-.stay {
-  display: none; }
+  color: red;
+  width: 100px;
+  height: 30px;
+  font-size: 15px;
+  border: none; }
 
 .title {
   text-align: center; }
 
-.card-floor {
-  background: green; }
+.game-status-div {
+  margin-top: 10px; }
+
+.win-title {
+  display: none; }
+
+.lost-title {
+  display: none; }
