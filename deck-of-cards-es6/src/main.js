@@ -1,4 +1,6 @@
 /* eslint-disable no-alert, no-console, no-tabs, prefer-const, import/extensions */
+/* eslint-disable no-restricted-globals */
+
 let deckId = null;
 let hand = [];
 let dealerHand = [];
@@ -57,7 +59,6 @@ const checkHand = () => {
 const checkDealerHand = () => {
   for (let count = checkDealerCount; count < dealerHand.length; count += 1) {
     checkDealerCount += 1;
-    // debugger;
     let newDealerImage = new Image();
     dealerCardImages[count] = dealerHand[count].image;
     newDealerImage.setAttribute('src', dealerHand[count].image);
@@ -209,6 +210,8 @@ dealEmAgain.addEventListener('click', refresh);
 const dead = () => {
   if (handScore > 21) {
     console.log('YOUR OUT');
+    stayButton.style.display = 'none';
+    hitMeButton.style.display = 'none';
     lose.style.display = 'unset';
     clearInterval(interval);
   }
@@ -228,5 +231,5 @@ const dead = () => {
 };
 
 interval = setInterval(dead, 500);
-// setTimeout(log, 1000);
+
 setTimeout(drawIntialCards, 2000);
