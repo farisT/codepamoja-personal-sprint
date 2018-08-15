@@ -1,4 +1,4 @@
-footer {
+.footer {
     background: $dark-grey;
     height: 100%;
     font-size: 18px;
@@ -7,7 +7,7 @@ footer {
     width: 100% 
 }
 
-footer button {
+.footer__button {
     margin-left: 10px;
     background: #cccccc;
     border: none;
