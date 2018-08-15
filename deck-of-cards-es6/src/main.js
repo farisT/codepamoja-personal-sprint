@@ -13,7 +13,6 @@ const hitMeButton = document.querySelector('.hit-me');
 const stayButton = document.querySelector('.stay');
 const score = document.querySelector('.score');
 
-const dealerContainer = document.querySelector('.dealer-container');
 const dealerScore = document.querySelector('.dealer-score');
 
 
@@ -24,9 +23,6 @@ let handScore = 0;
 
 let checkDealerCount = 0;
 let dealerHandScore = 0;
-
-let checkScoreCount = 0;
-let checkDealerScoreCount = 0;
 
 
 const fetchDeck = () => {
@@ -54,8 +50,9 @@ const checkHand = () => {
 };
 
 const checkDealerHand = () => {
-  for (let count = checkDealerCount; count < hand.length; count += 1) {
+  for (let count = checkDealerCount; count < dealerHand.length; count += 1) {
     checkDealerCount += 1;
+    // debugger;
     let newDealerImage = new Image();
     dealerCardImages[count] = dealerHand[count].image;
     newDealerImage.setAttribute('src', dealerHand[count].image);
@@ -66,7 +63,7 @@ const checkDealerHand = () => {
 
 const checkDealerScore = () => {
   dealerHandScore = 0;
-  for (let count = checkDealerScoreCount; count < dealerHand.length; count += 1) {
+  for (let count = 0; count < dealerHand.length; count += 1) {
     if (dealerHand[count].value === 'KING' || dealerHand[count].value === 'QUEEN' || dealerHand[count].value === 'JACK') {
       dealerHandScore += 10;
     }
@@ -104,6 +101,22 @@ const checkScore = () => {
   score.innerHTML = `Score: ${handScore}`;
 };
 
+const dealerDraw = () => {
+  dealerFloor.style.display = 'unset';
+  fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
+    .then(response => response.json())
+    .then((data) => {
+      dealerHand = data.cards;
+      console.log(dealerHand);
+    })
+    .then(checkDealerHand)
+    .then(checkDealerScore)
+    .then()
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
 const drawIntialCards = () => {
   fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
     .then(response => response.json())
@@ -116,28 +129,15 @@ const drawIntialCards = () => {
     })
     .then(checkHand)
     .then(checkScore)
+    .then(dealerDraw)
     .catch((e) => {
       console.log(e);
     });
 };
 
-const drawCard = () => {
-  fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-    .then(response => response.json())
-    .then((data) => {
-      console.log(data);
-      hand.push(data.cards[0]);
-      console.log(hand);
-    })
-    .then(checkHand)
-    .then(checkScore)
-    .catch((e) => {
-      console.log(e);
-    });
-};
 
 const dealerAI = () => {
-  if (dealerHandScore <= 17) {
+  if (dealerHandScore <= 16) {
     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
       .then(response => response.json())
       .then((data) => {
@@ -155,27 +155,30 @@ const dealerAI = () => {
   }
 };
 
-const dealerDraw = () => {
-  dealerContainer.style.display = 'unset';
-  fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
+
+const dealerStartPlaying = () => {
+  dealerInterval = setInterval(dealerAI, 3000);
+};
+
+const drawCard = () => {
+  fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
     .then(response => response.json())
     .then((data) => {
-      dealerHand = data.cards;
-      console.log(dealerHand);
+      console.log(data);
+      hand.push(data.cards[0]);
+      console.log(hand);
     })
-    .then(checkDealerHand)
-    .then(checkDealerScore)
-    // .then(dealerInterval = setInterval(dealerAI, 5000))
+    .then(checkHand)
+    .then(checkScore)
     .catch((e) => {
       console.log(e);
     });
 };
 
-
 fetchDeck();
 
 hitMeButton.addEventListener('click', drawCard);
-stayButton.addEventListener('click', dealerDraw);
+stayButton.addEventListener('click', dealerStartPlaying);
 
 
 const dead = () => {
@@ -187,6 +190,7 @@ const dead = () => {
     console.log('DEALER OUT');
     console.log(dealerHand);
     clearInterval(dealerInterval);
+    clearInterval(interval);
   }
 };
 
